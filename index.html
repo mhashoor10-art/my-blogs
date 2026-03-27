@@ -1,27 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Best blog website for tech and tips">
-  <meta name="keywords" content="blog, tech, tips, online earning">
+
+  <!-- SEO -->
+  <meta name="description" content="Best blog website for tech tips, online earning and tutorials">
+  <meta name="keywords" content="blog, tech, earning, tips, tutorials">
   <meta name="author" content="Kazim">
 
-  <title>My Blog Website</title>
+  <title>My Pro Blog 🚀</title>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
+    :root {
+      --bg: #f4f4f4;
+      --text: #111;
+      --card: #fff;
+      --nav: #222;
     }
 
-    /* NAVBAR */
+    body.dark {
+      --bg: #111;
+      --text: #fff;
+      --card: #1e1e1e;
+      --nav: #000;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.3s;
+    }
+
+    /* NAV */
     nav {
-      background: #222;
+      background: var(--nav);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 20px;
+      padding: 12px 20px;
       flex-wrap: wrap;
     }
 
@@ -32,13 +51,21 @@
 
     nav a {
       color: white;
+      margin: 0 10px;
       text-decoration: none;
-      margin: 5px 10px;
       font-weight: bold;
     }
 
     nav a:hover {
       color: yellow;
+    }
+
+    .toggle {
+      background: yellow;
+      border: none;
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 5px;
     }
 
     /* SECTIONS */
@@ -51,8 +78,8 @@
       margin: auto;
     }
 
-    .blog-card {
-      background: white;
+    .card {
+      background: var(--card);
       padding: 15px;
       margin: 15px 0;
       border-radius: 10px;
@@ -60,39 +87,31 @@
       transition: 0.3s;
     }
 
-    .blog-card:hover {
+    .card:hover {
       transform: scale(1.02);
     }
 
-    .blog-card a {
+    .card a {
       text-decoration: none;
-      color: black;
+      color: var(--text);
     }
 
-    /* ABOUT */
-    .about, .contact {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
-    }
-
-    /* CONTACT FORM */
+    /* CONTACT */
     input, textarea {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
-      border: 1px solid #ccc;
       border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
     button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
       background: #222;
       color: white;
-      padding: 10px;
       border: none;
-      margin-top: 10px;
-      width: 100%;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -114,33 +133,35 @@
 
 <body>
 
-<!-- NAVBAR -->
+<!-- NAV -->
 <nav>
-  <h2>My Blog 🚀</h2>
+  <h2>My Pro Blog 🚀</h2>
+
   <div>
     <a href="#home">Home</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
   </div>
+
+  <button class="toggle" onclick="toggleDark()">Dark Mode</button>
 </nav>
 
 <!-- HOME -->
 <section id="home">
   <div class="container">
-
     <h2>Latest Blogs</h2>
 
-    <div class="blog-card">
+    <div class="card">
       <a href="blog1.html">
         <h3>My First Blog</h3>
-        <p>Click to read my first blog post</p>
+        <p>Click to read post</p>
       </a>
     </div>
 
-    <div class="blog-card">
+    <div class="card">
       <a href="blog2.html">
         <h3>My Second Blog</h3>
-        <p>Click to read my second blog post</p>
+        <p>Click to read post</p>
       </a>
     </div>
 
@@ -149,28 +170,34 @@
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="container about">
+  <div class="container card">
     <h2>About Me</h2>
     <p>
-      Welcome to my blog website 🚀  
-      Yahan main tech, tips aur online earning ke baare me posts share karta hoon.
-      Stay connected for more updates!
+      Welcome to my pro blog 🚀  
+      Here I share tech tips, blogging guides, and online earning tricks.
     </p>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="container contact">
+  <div class="container card">
     <h2>Contact Me</h2>
 
-    <input type="text" placeholder="Your Name">
-    <input type="email" placeholder="Your Email">
-    <textarea rows="5" placeholder="Your Message"></textarea>
-
-    <button>Send Message</button>
+    <form action="mailto:yourgmail@gmail.com" method="post" enctype="text/plain">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" rows="5" placeholder="Your Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
   </div>
 </section>
+
+<script>
+  function toggleDark() {
+    document.body.classList.toggle("dark");
+  }
+</script>
 
 </body>
 </html>
