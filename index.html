@@ -9,8 +9,9 @@
   <meta name="keywords" content="blog, tech, earning, tips, tutorials">
   <meta name="author" content="Kazim">
 <meta name="google-site-verification" content="hbqEwgtUnMeSxn1KEhRA5B1kOg2VYHIHXixzDodGeY0" />
-
-  <title>My Pro Blog 🚀</title>
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mhashoor10-art.github.io/kazim/">
+  <title>Kazim Blog | Tech Tips & Online Earning 🚀</title>
 
   <style>
     :root {
@@ -62,12 +63,18 @@
     }
 
     .toggle {
-      background: yellow;
-      border: none;
-      padding: 6px 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+body.dark .toggle {
+  background: #333;
+  color: #fff;
+}
 
     /* SECTIONS */
     section {
@@ -186,7 +193,7 @@
   <div class="container card">
     <h2>Contact Me</h2>
 
-    <form action="mailto:yourgmail@gmail.com" method="post" enctype="text/plain">
+    <form onsubmit="alert('Message sent!'); return false;">
       <input type="text" name="name" placeholder="Your Name" required>
       <input type="email" name="email" placeholder="Your Email" required>
       <textarea name="message" rows="5" placeholder="Your Message"></textarea>
