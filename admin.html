@@ -3,130 +3,133 @@
 <head>
   <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-      background: #f4f4f4;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    button {
-      padding: 10px;
-      width: 100%;
-      background: black;
-      color: white;
-      border: none;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-
-    button:hover {
-      background: #333;
-    }
-
-    .card {
-      background: white;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 10px;
-    }
-
-    .delete-btn {
-      background: red;
-      margin-top: 5px;
-    }
-  </style>
 </head>
 
 <body>
 
-<h2>Admin Panel 🚀</h2>
+<div id="login">
+  <h2>Login 🔐</h2>
+  <input type="password" id="pass" placeholder="Enter Password">
+  <button onclick="login()">Login</button>
+</div>
 
-<!-- INPUTS -->
-<input id="title" placeholder="Blog Title">
-<input id="desc" placeholder="Blog Description">
-<input id="img" placeholder="Image URL">
-<textarea id="content" placeholder="Full Blog Content"></textarea>
-<input id="author" placeholder="Author Name">
+<div id="panel" style="display:none;">
+  <h2>Admin Panel 🚀</h2>
 
-<button onclick="addBlog()">Add Blog</button>
+  <input id="title" placeholder="Title"><br>
+  <input id="desc" placeholder="Description"><br>
+  <input id="img" placeholder="Image URL"><br>
+  <input type="file" id="file"><br>
+  <textarea id="content" placeholder="Content"></textarea><br>
+  <input id="author" placeholder="Author"><br>
 
-<h3>All Blogs</h3>
-<div id="list"></div>
+  <button onclick="addBlog()">Save Blog</button>
 
-<script>
-let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+  <h3>All Blogs</h3>
+  <div id="list"></div>
+</div>
 
-/* SAVE */
-function save() {
-  localStorage.setItem("blogs", JSON.stringify(blogs));
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "PASTE_YOURS",
+  authDomain: "PASTE_YOURS",
+  projectId: "PASTE_YOURS",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let editId = null;
+
+// 🔐 LOGIN
+window.login = function() {
+  let pass = document.getElementById("pass").value;
+  if (pass === "1234") {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    loadBlogs();
+  } else {
+    alert("Wrong password");
+  }
+};
+
+// 📸 IMAGE UPLOAD (basic)
+function getImage() {
+  let file = document.getElementById("file").files[0];
+  if (file) {
+    return URL.createObjectURL(file);
+  }
+  return document.getElementById("img").value;
 }
 
-/* ADD BLOG */
-function addBlog() {
+// ➕ ADD / UPDATE
+window.addBlog = async function() {
   let blog = {
-    id: Date.now(),
-    title: document.getElementById("title").value,
-    desc: document.getElementById("desc").value,
-    img: document.getElementById("img").value,
-    content: document.getElementById("content").value,
-    author: document.getElementById("author").value,
+    title: title.value,
+    desc: desc.value,
+    img: getImage(),
+    content: content.value,
+    author: author.value,
     date: new Date().toDateString()
   };
 
-  blogs.push(blog);
-  save();
-  show();
+  if (!blog.title || !blog.desc) {
+    alert("Fill required fields!");
+    return;
+  }
 
-  alert("Blog Added 🚀");
+  if (editId) {
+    await updateDoc(doc(db, "blogs", editId), blog);
+    editId = null;
+  } else {
+    await addDoc(collection(db, "blogs"), blog);
+  }
 
   clearForm();
-}
+  loadBlogs();
+};
 
-/* CLEAR FORM */
+// 🧹 CLEAR
 function clearForm() {
-  document.getElementById("title").value = "";
-  document.getElementById("desc").value = "";
-  document.getElementById("img").value = "";
-  document.getElementById("content").value = "";
-  document.getElementById("author").value = "";
+  title.value = desc.value = img.value = content.value = author.value = "";
 }
 
-/* DELETE */
-function deleteBlog(index) {
-  blogs.splice(index, 1);
-  save();
-  show();
-}
-
-/* SHOW BLOGS */
-function show() {
-  let list = document.getElementById("list");
+// 📥 LOAD
+async function loadBlogs() {
   list.innerHTML = "";
+  const data = await getDocs(collection(db, "blogs"));
 
-  blogs.forEach((b, i) => {
+  data.forEach((docSnap) => {
+    let b = docSnap.data();
+
     list.innerHTML += `
-      <div class="card">
+      <div>
         <h4>${b.title}</h4>
-        <p>${b.desc}</p>
-        <small>${b.date}</small>
-        <button class="delete-btn" onclick="deleteBlog(${i})">Delete</button>
+        <button onclick="editBlog('${docSnap.id}', '${b.title}', '${b.desc}', '${b.content}', '${b.author}', '${b.img}')">Edit</button>
+        <button onclick="deleteBlog('${docSnap.id}')">Delete</button>
       </div>
     `;
   });
 }
 
-show();
+// ✏️ EDIT
+window.editBlog = function(id, t, d, c, a, i) {
+  editId = id;
+  title.value = t;
+  desc.value = d;
+  content.value = c;
+  author.value = a;
+  img.value = i;
+};
+
+// ❌ DELETE
+window.deleteBlog = async function(id) {
+  await deleteDoc(doc(db, "blogs", id));
+  loadBlogs();
+};
 </script>
 
 </body>
