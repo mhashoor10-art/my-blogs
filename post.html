@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog</title>
+  <meta name="description" content="Read blog post">
+</head>
+
+<body>
+
+<div id="post"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "PASTE_YOURS",
+  authDomain: "PASTE_YOURS",
+  projectId: "PASTE_YOURS",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let id = new URLSearchParams(location.search).get("id");
+
+const snap = await getDoc(doc(db, "blogs", id));
+
+if (snap.exists()) {
+  let b = snap.data();
+
+  post.innerHTML = `
+    <h1>${b.title}</h1>
+    <img src="${b.img}" width="100%">
+    <p>${b.content}</p>
+    <small>${b.author} | ${b.date}</small>
+  `;
+}
+</script>
+
+</body>
+</html>
