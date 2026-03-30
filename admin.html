@@ -9,8 +9,8 @@
 
 <div id="login">
   <h2>Login 🔐</h2>
-  <input type="password" id="pass" placeholder="Enter Password">
-  <button onclick="login()">Login</button>
+  <input type="password" id="pass">
+  <button id="loginBtn">Login</button>
 </div>
 
 <div id="panel" style="display:none;">
@@ -19,11 +19,10 @@
   <input id="title" placeholder="Title"><br>
   <input id="desc" placeholder="Description"><br>
   <input id="img" placeholder="Image URL"><br>
-  <input type="file" id="file"><br>
   <textarea id="content" placeholder="Content"></textarea><br>
   <input id="author" placeholder="Author"><br>
 
-  <button onclick="addBlog()">Save Blog</button>
+  <button id="saveBtn">Save Blog</button>
 
   <h3>All Blogs</h3>
   <div id="list"></div>
@@ -33,49 +32,49 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBlQP-s0Q-y6J1POkEEHrcDP32Wn6JPK_4",
   authDomain: "kazim-aa621.firebaseapp.com",
   projectId: "kazim-aa621",
-  storageBucket: "kazim-aa621.firebasestorage.app",
-  messagingSenderId: "1013202883035",
-  appId: "1:1013202883035:web:777c341cfc6c14d3a217fe",
-  measurementId: "G-0MK223J467"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// DOM FIX
+const pass = document.getElementById("pass");
+const loginBtn = document.getElementById("loginBtn");
+
+const panel = document.getElementById("panel");
+const list = document.getElementById("list");
+
+const title = document.getElementById("title");
+const desc = document.getElementById("desc");
+const img = document.getElementById("img");
+const content = document.getElementById("content");
+const author = document.getElementById("author");
+
+const saveBtn = document.getElementById("saveBtn");
+
 let editId = null;
 
 // 🔐 LOGIN
-window.login = function() {
-  let pass = document.getElementById("pass").value;
-  if (pass === "1234") {
+loginBtn.onclick = function () {
+  if (pass.value === "1234") {
     document.getElementById("login").style.display = "none";
-    document.getElementById("panel").style.display = "block";
+    panel.style.display = "block";
     loadBlogs();
   } else {
     alert("Wrong password");
   }
 };
 
-// 📸 IMAGE UPLOAD (basic)
-function getImage() {
-  let file = document.getElementById("file").files[0];
-  if (file) {
-    return URL.createObjectURL(file);
-  }
-  return document.getElementById("img").value;
-}
-
-// ➕ ADD / UPDATE
-window.addBlog = async function() {
+// ➕ SAVE / UPDATE
+saveBtn.onclick = async function () {
   let blog = {
     title: title.value,
     desc: desc.value,
-    img: getImage(),
+    img: img.value,
     content: content.value,
     author: author.value,
     date: new Date().toDateString()
@@ -99,42 +98,51 @@ window.addBlog = async function() {
 
 // 🧹 CLEAR
 function clearForm() {
-  title.value = desc.value = img.value = content.value = author.value = "";
+  title.value = "";
+  desc.value = "";
+  img.value = "";
+  content.value = "";
+  author.value = "";
 }
 
-// 📥 LOAD
+// 📥 LOAD BLOGS
 async function loadBlogs() {
   list.innerHTML = "";
+
   const data = await getDocs(collection(db, "blogs"));
 
   data.forEach((docSnap) => {
     let b = docSnap.data();
 
-    list.innerHTML += `
-      <div>
-        <h4>${b.title}</h4>
-        <button onclick="editBlog('${docSnap.id}', '${b.title}', '${b.desc}', '${b.content}', '${b.author}', '${b.img}')">Edit</button>
-        <button onclick="deleteBlog('${docSnap.id}')">Delete</button>
-      </div>
+    let div = document.createElement("div");
+
+    div.innerHTML = `
+      <h4>${b.title}</h4>
+      <button class="editBtn">Edit</button>
+      <button class="delBtn">Delete</button>
+      <hr>
     `;
+
+    // EDIT
+    div.querySelector(".editBtn").onclick = () => {
+      editId = docSnap.id;
+      title.value = b.title;
+      desc.value = b.desc;
+      img.value = b.img;
+      content.value = b.content;
+      author.value = b.author;
+    };
+
+    // DELETE
+    div.querySelector(".delBtn").onclick = async () => {
+      await deleteDoc(doc(db, "blogs", docSnap.id));
+      loadBlogs();
+    };
+
+    list.appendChild(div);
   });
 }
 
-// ✏️ EDIT
-window.editBlog = function(id, t, d, c, a, i) {
-  editId = id;
-  title.value = t;
-  desc.value = d;
-  content.value = c;
-  author.value = a;
-  img.value = i;
-};
-
-// ❌ DELETE
-window.deleteBlog = async function(id) {
-  await deleteDoc(doc(db, "blogs", id));
-  loadBlogs();
-};
 </script>
 
 </body>
