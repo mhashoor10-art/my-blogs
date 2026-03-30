@@ -14,185 +14,76 @@
   <title>Kazim Blog | Tech Tips & Online Earning 🚀</title>
 
   <style>
-    :root {
-      --bg: #f4f4f4;
-      --text: #111;
-      --card: #fff;
-      --nav: #222;
-    }
-
-    body.dark {
-      --bg: #111;
-      --text: #fff;
-      --card: #1e1e1e;
-      --nav: #000;
-    }
-   html {
-  scroll-behavior: smooth;
-   }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      transition: 0.3s;
-    }
-
-    /* NAV */
-    nav {
-      background: var(--nav);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 20px;
-      flex-wrap: wrap;
-    }
-
-    nav h2 {
-      color: white;
-      margin: 0;
-    }
-
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      color: yellow;
-    }
-
-    .toggle {
-  background: #fff;
-  color: #000;
-  border: none;
-  padding: 6px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-body.dark .toggle {
-  background: #333;
-  color: #fff;
-}
-
-    /* SECTIONS */
-    section {
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .card {
-      background: var(--card);
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: scale(1.02);
-    }
-
-    .card a {
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    /* CONTACT */
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      background: #222;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #444;
-    }
-
-    /* MOBILE */
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
+    body { font-family: Arial; padding: 20px; }
+    .dark { background: #111; color: white; }
+    .card { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
   </style>
-  
 </head>
 
 <body>
 
-<!-- NAV -->
-<nav>
-  <h2>My Pro Blog 🚀</h2>
+<button onclick="toggleDark()">🌙</button>
+<input id="search" placeholder="Search..." oninput="filterBlogs()">
 
-  <div>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </div>
+<h2>Blogs</h2>
+<div id="blogs"></div>
 
-  <button class="toggle" onclick="toggleDark()">Dark Mode</button>
-</nav>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-<!-- HOME -->
-<section id="home">
-  <div class="container">
-    <h2>Latest Blogs</h2>
+const firebaseConfig = {
+  apiKey: "PASTE_YOURS",
+  authDomain: "PASTE_YOURS",
+  projectId: "PASTE_YOURS",
+};
 
-    <div id="blogList"></div>
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  </div>
-</section>
+let allBlogs = [];
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="container card">
-    <h2>About Me</h2>
-    <p>
-      Welcome to my pro blog 🚀  
-      Here I share tech tips, blogging guides, and online earning tricks.
-    </p>
-  </div>
-</section>
+const data = await getDocs(collection(db, "blogs"));
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container card">
-    <h2>Contact Me</h2>
+data.forEach((docSnap) => {
+  let b = docSnap.data();
+  b.id = docSnap.id;
+  allBlogs.push(b);
+});
 
-    <form onsubmit="alert('Message sent!'); return false;">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" rows="5" placeholder="Your Message"></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </div>
-</section>
-  
-<script src="admin.js"></script>
-  
+function show(list) {
+  blogs.innerHTML = "";
+  list.forEach(b => {
+    blogs.innerHTML += `
+      <div class="card">
+        <h3>${b.title}</h3>
+        <img src="${b.img}" width="100%">
+        <p>${b.desc}</p>
+        <a href="post.html?id=${b.id}">Read More</a>
+      </div>
+    `;
+  });
+}
+
+// 🔍 SEARCH
+window.filterBlogs = function() {
+  let q = search.value.toLowerCase();
+  let filtered = allBlogs.filter(b => b.title.toLowerCase().includes(q));
+  show(filtered);
+};
+
+// 🌙 DARK MODE SAVE
+function toggleDark() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("dark", document.body.classList.contains("dark"));
+}
+
+if (localStorage.getItem("dark") === "true") {
+  document.body.classList.add("dark");
+}
+
+show(allBlogs);
+</script>
+
 </body>
 </html>
