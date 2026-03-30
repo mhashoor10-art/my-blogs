@@ -30,9 +30,18 @@
   <div id="list"></div>
 </div>
 
-<script type="module">
+
+  <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBlQP-s0Q-y6J1POkEEHrcDP32Wn6JPK_4",
@@ -43,27 +52,26 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// DOM FIX
-const pass = document.getElementById("pass");
-const loginBtn = document.getElementById("loginBtn");
+// FIX DOM SAFETY
+const $ = (id) => document.getElementById(id);
 
-const panel = document.getElementById("panel");
-const list = document.getElementById("list");
+const pass = $("pass");
+const loginBtn = $("loginBtn");
+const panel = $("panel");
+const list = $("list");
 
-const title = document.getElementById("title");
-const desc = document.getElementById("desc");
-const img = document.getElementById("img");
-const content = document.getElementById("content");
-const author = document.getElementById("author");
-
-const saveBtn = document.getElementById("saveBtn");
+const title = $("title");
+const desc = $("desc");
+const img = $("img");
+const content = $("content");
+const author = $("author");
 
 let editId = null;
 
-// 🔐 LOGIN
-loginBtn.onclick = function () {
+// LOGIN
+loginBtn.onclick = () => {
   if (pass.value === "1234") {
-    document.getElementById("login").style.display = "none";
+    $("login").style.display = "none";
     panel.style.display = "block";
     loadBlogs();
   } else {
@@ -71,8 +79,8 @@ loginBtn.onclick = function () {
   }
 };
 
-// ➕ SAVE / UPDATE
-saveBtn.onclick = async function () {
+// SAVE
+$("saveBtn").onclick = async () => {
   let blog = {
     title: title.value,
     desc: desc.value,
@@ -83,7 +91,7 @@ saveBtn.onclick = async function () {
   };
 
   if (!blog.title || !blog.desc) {
-    alert("Fill required fields!");
+    alert("Title + Desc required");
     return;
   }
 
@@ -98,36 +106,26 @@ saveBtn.onclick = async function () {
   loadBlogs();
 };
 
-// 🧹 CLEAR
-function clearForm() {
-  title.value = "";
-  desc.value = "";
-  img.value = "";
-  content.value = "";
-  author.value = "";
-}
-
-// 📥 LOAD BLOGS
+// LOAD
 async function loadBlogs() {
   list.innerHTML = "";
 
   const data = await getDocs(collection(db, "blogs"));
 
-  data.forEach((docSnap) => {
-    let b = docSnap.data();
+  data.forEach((d) => {
+    let b = d.data();
 
     let div = document.createElement("div");
 
     div.innerHTML = `
       <h4>${b.title}</h4>
-      <button class="editBtn">Edit</button>
-      <button class="delBtn">Delete</button>
+      <button class="edit">Edit</button>
+      <button class="del">Delete</button>
       <hr>
     `;
 
-    // EDIT
-    div.querySelector(".editBtn").onclick = () => {
-      editId = docSnap.id;
+    div.querySelector(".edit").onclick = () => {
+      editId = d.id;
       title.value = b.title;
       desc.value = b.desc;
       img.value = b.img;
@@ -135,9 +133,8 @@ async function loadBlogs() {
       author.value = b.author;
     };
 
-    // DELETE
-    div.querySelector(".delBtn").onclick = async () => {
-      await deleteDoc(doc(db, "blogs", docSnap.id));
+    div.querySelector(".del").onclick = async () => {
+      await deleteDoc(doc(db, "blogs", d.id));
       loadBlogs();
     };
 
@@ -145,7 +142,12 @@ async function loadBlogs() {
   });
 }
 
+// CLEAR
+function clearForm() {
+  title.value = "";
+  desc.value = "";
+  img.value = "";
+  content.value = "";
+  author.value = "";
+}
 </script>
-
-</body>
-</html>
