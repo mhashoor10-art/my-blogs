@@ -140,3 +140,7 @@ body.dark textarea {
   font-size: 28px;
   margin: 0;
 }
+
+body.dark .top-header {
+  background: #000;
+}
