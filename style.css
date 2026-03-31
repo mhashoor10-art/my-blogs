@@ -1,8 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f4f4f4;
-  color: #111;
+  transition: 0.3s ease;
 }
 
 /* NAV */
@@ -86,4 +83,32 @@ button:hover {
   border: 2px solid gold;
   transform: scale(1.03);
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+/* DARK MODE */
+body.dark {
+  background: #121212;
+  color: #ffffff;
+}
+
+/* Cards dark mode */
+body.dark .card {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Nav dark mode */
+body.dark nav {
+  background: #000;
+}
+
+body.dark nav a {
+  color: #fff;
+}
+
+/* Inputs dark mode */
+body.dark input,
+body.dark textarea {
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #555;
 }
