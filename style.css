@@ -190,3 +190,10 @@ body.dark .top-header {
   padding-top: 10px;
   color: #aaa;
 }
+body.dark .footer {
+  background: #000;
+}
+
+body.dark .footer-bottom {
+  border-top: 1px solid #333;
+}
