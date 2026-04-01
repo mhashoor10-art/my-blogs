@@ -12,35 +12,35 @@ const db = getFirestore(app);
 
 const blogsDiv = document.getElementById("blogs");
 
-let allBlogs = [];
-
 async function loadBlogs() {
   blogsDiv.innerHTML = "Loading...";
 
-  const q = query(collection(db, "blogs"), limit(10));
-  const data = await getDocs(q);
+  try {
+    const q = query(collection(db, "blogs"), limit(10));
+    const data = await getDocs(q);
 
-  allBlogs = [];
+    let html = "";
 
-  data.forEach((doc) => {
-    allBlogs.push({ id: doc.id, ...doc.data() });
-  });
+    data.forEach((doc) => {
+      const b = doc.data();
 
-  let html = "";
+      html += `
+        <div class="card">
+          <a href="post.html?id=${doc.id}">
+            <img src="${b.img || "https://via.placeholder.com/400"}">
+            <h3>${b.title || "No Title"}</h3>
+            <p>${b.desc || ""}</p>
+          </a>
+        </div>
+      `;
+    });
 
-  allBlogs.forEach((b) => {
-    html += `
-      <div class="card">
-        <a href="post.html?id=${b.id}" style="text-decoration:none; color:inherit;">
-          <h3>${b.title || "No Title"}</h3>
-          <img src="${b.img || "https://via.placeholder.com/300"}">
-          <p>${b.desc || ""}</p>
-        </a>
-      </div>
-    `;
-  });
+    blogsDiv.innerHTML = html;
 
-  blogsDiv.innerHTML = html;
+  } catch (error) {
+    console.error(error);
+    blogsDiv.innerHTML = "Failed to load blogs";
+  }
 }
 
 loadBlogs();
