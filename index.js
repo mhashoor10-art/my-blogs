@@ -12,10 +12,11 @@ const db = getFirestore(app);
 
 const blogsDiv = document.getElementById("blogs");
 
+/* ================= BLOG LOAD ================= */
 async function loadBlogs() {
   blogsDiv.innerHTML = "Loading...";
 
- const data = await getDocs(collection(db, "blogs"));
+  const data = await getDocs(collection(db, "blogs"));
 
   let html = "";
 
@@ -37,13 +38,20 @@ async function loadBlogs() {
 }
 
 loadBlogs();
+
+/* ================= MENU TOGGLE ================= */
 window.toggleMenu = function () {
   document.getElementById("navLinks").classList.toggle("active");
 };
 
-// auto close on click
-document.querySelectorAll(".nav-links a").forEach(link => {
-  link.addEventListener("click", () => {
-    document.getElementById("navLinks").classList.remove("active");
+/* ================= AUTO CLOSE MENU (SAFE) ================= */
+window.addEventListener("DOMContentLoaded", () => {
+  const links = document.querySelectorAll(".nav-links a");
+
+  links.forEach(link => {
+    link.addEventListener("click", () => {
+      const nav = document.getElementById("navLinks");
+      if (nav) nav.classList.remove("active");
+    });
   });
 });
