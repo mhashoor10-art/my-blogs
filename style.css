@@ -19,6 +19,12 @@ body {
   gap: 10px;
 }
 
+.top-header .logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
 .top-header .logo h1 {
   color: white;
   font-size: 20px;
@@ -28,16 +34,18 @@ body {
 /* INPUT */
 input, textarea {
   width: 90%;
+  max-width: 600px;
   margin: 10px auto;
   display: block;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  outline: none;
 }
 
 /* BUTTON */
 button {
-  background: #111827;
+  background: #111;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -46,33 +54,24 @@ button {
   margin: 10px;
 }
 
+button:hover {
+  opacity: 0.9;
+}
+
 /* BLOG CARD */
 .card {
   background: white;
-  margin: 15px;
+  margin: 15px auto;
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  max-width: 600px;
 }
 
 .card img {
   width: 100%;
   border-radius: 10px;
-}
-
-/* CONTAINER */
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 10px;
-}
-
-/* FOOTER */
-.footer {
-  text-align: center;
-  padding: 20px;
-  background: #111827;
-  color: white;
+  object-fit: cover;
 }
 
 /* PROGRESS BAR */
@@ -83,7 +82,10 @@ button {
   height: 4px;
   width: 0%;
   background: #22c55e;
+  z-index: 999;
 }
+
+/* FOOTER (ONLY ONE CLEAN VERSION) */
 .footer {
   background: #111;
   color: white;
