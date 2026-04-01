@@ -159,44 +159,46 @@ button:hover {
   color: #22c55e;
 }
 
-/* LINKS */
+/* NAV LINKS */
 .nav-links {
   list-style: none;
   display: flex;
   gap: 25px;
 }
 
+/* LINK BASE */
 .nav-links li a {
   color: #ddd;
   text-decoration: none;
   font-weight: 500;
   position: relative;
-  overflow: hidden;
+  padding: 5px 0;
   transition: 0.3s;
+  overflow: hidden;
 }
 
-/* hover effect */
+/* HOVER COLOR */
 .nav-links li a:hover {
   color: #22c55e;
 }
 
-/* underline animation */
+/* GREEN UNDERLINE */
 .nav-links li a::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -4px;
+  bottom: -3px;
   width: 0%;
   height: 2px;
   background: #22c55e;
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 
 .nav-links li a:hover::after {
   width: 100%;
 }
 
-/* ripple effect */
+/* RIPPLE EFFECT */
 .nav-links li a::before {
   content: "";
   position: absolute;
