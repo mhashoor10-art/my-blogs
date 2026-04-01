@@ -37,6 +37,6 @@ async function loadBlogs() {
 }
 
 loadBlogs();
-function toggleMenu() {
+window.toggleMenu = function () {
   document.getElementById("navLinks").classList.toggle("active");
-}
+};
