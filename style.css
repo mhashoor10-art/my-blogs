@@ -1,125 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f9fafb;
+  color: #111;
   transition: 0.3s ease;
-}
-
-/* NAV */
-nav {
-  background: #222;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-nav h2 {
-  color: white;
-}
-
-nav a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-nav a:hover {
-  color: yellow;
-}
-
-/* CONTAINER */
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 15px;
-}
-
-/* BLOG CARDS */
-.card {
-  background: grey;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: scale(1.02);
-}
-
-/* CONTACT */
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #222;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #444;
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-.featured {
-  border: 2px solid gold;
-  transform: scale(1.03);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 
 /* TOP HEADER */
 .top-header {
-  background: #222;
-  padding: 15px;
+  background: #111827;
+  padding: 15px 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-/* LOGO AREA */
 .logo {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* LOGO IMAGE */
 .logo img {
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
+  border: 2px solid #fff;
 }
 
-/* WEBSITE NAME */
 .logo h1 {
-  color: white;
-  font-size: 28px;
+  color: #fff;
+  font-size: 24px;
   margin: 0;
+}
+
+/* NAV */
+nav {
+  background: #1f2937;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #e5e7eb;
+  margin: 8px 12px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #facc15;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* BLOG CARDS */
+.card {
+  background: #ffffff;
+  padding: 18px;
+  margin: 20px 0;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+  transition: 0.3s ease;
+  border: 1px solid #eee;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* FEATURED CARD */
+.featured {
+  border: 2px solid #facc15;
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+}
+
+/* INPUTS */
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+/* BUTTON */
+button {
+  padding: 10px 18px;
+  margin-top: 10px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #374151;
 }
 
 /* FOOTER */
 .footer {
-  background: #2a2a2a;
-  color: white;
+  background: #111827;
+  color: #e5e7eb;
   padding: 40px 20px 20px;
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
 .footer-container {
@@ -138,40 +147,53 @@ button:hover {
 
 .footer-box h3 {
   margin-bottom: 10px;
+  color: #fff;
 }
 
 .footer-box a {
   display: block;
-  color: #bbb;
+  color: #9ca3af;
   text-decoration: none;
-  margin: 5px 0;
+  margin: 6px 0;
+  transition: 0.3s;
 }
 
 .footer-box a:hover {
-  color: yellow;
+  color: #facc15;
 }
 
-/* bottom line */
+/* FOOTER BOTTOM */
 .footer-bottom {
   text-align: center;
   margin-top: 20px;
-  border-top: 1px solid #444;
+  border-top: 1px solid #374151;
   padding-top: 10px;
-  color: #aaa;
+  color: #9ca3af;
 }
 
+/* PROGRESS BAR */
 #progressBar {
   position: fixed;
   top: 0;
   left: 0;
   height: 4px;
   width: 0%;
-  background: #00ffcc;
+  background: #22c55e;
   z-index: 9999;
-  transition: width 0.1s ease;
 }
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-body {
-  font-family: 'Poppins', sans-serif;
+/* MOBILE */
+@media (max-width: 600px) {
+  .top-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav {
+    flex-direction: column;
+  }
+
+  .logo h1 {
+    font-size: 20px;
+  }
 }
