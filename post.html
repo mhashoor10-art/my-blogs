@@ -39,12 +39,12 @@ async function loadPost() {
 
   post.innerHTML = `
   <div class="card">
-    <img class="post-img" src="${blog.img || "https://via.placeholder.com/600"}">
-    <h1>${blog.title}</h1>
-    <p><b>By:</b> ${blog.author || "Admin"}</p>
-    <small>${blog.date || ""}</small>
+    <img class="post-img" src="${b.img || "https://via.placeholder.com/600"}">
+    <h1>${b.title}</h1>
+    <p><b>By:</b> ${b.author || "Admin"}</p>
+    <small>${b.date || ""}</small>
     <hr>
-    <p>${blog.content || ""}</p>
+    <p>${b.content || ""}</p>
   </div>
 `;
 }
