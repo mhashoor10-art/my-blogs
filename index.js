@@ -15,7 +15,12 @@ const blogsDiv = document.getElementById("blogs");
 async function loadBlogs() {
   blogsDiv.innerHTML = "Loading...";
 
-  const data = await getDocs(collection(db, "blogs"));
+  import { collection, query, orderBy, getDocs } from "firebase/firestore";
+
+const q = query(
+  collection(db, "blogs"),
+  orderBy("date", "desc")
+);
 
   let html = "";
 
