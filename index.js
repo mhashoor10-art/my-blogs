@@ -40,3 +40,10 @@ loadBlogs();
 window.toggleMenu = function () {
   document.getElementById("navLinks").classList.toggle("active");
 };
+
+// auto close on click
+document.querySelectorAll(".nav-links a").forEach(link => {
+  link.addEventListener("click", () => {
+    document.getElementById("navLinks").classList.remove("active");
+  });
+});
