@@ -49,6 +49,18 @@ async function loadPost() {
 
 loadPost();
 </script>
+<script>
+window.addEventListener("scroll", () => {
+  const img = document.querySelector(".post-img");
+  if (!img) return;
 
+  let scroll = window.scrollY;
+
+  let scale = 1 - scroll / 1000;
+  if (scale < 0.6) scale = 0.6;
+
+  img.style.transform = `scale(${scale})`;
+});
+</script>
 </body>
 </html>
