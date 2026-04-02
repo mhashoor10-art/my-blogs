@@ -57,3 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("overlay").classList.remove("active");
   };
 });
+// FORCE MENU CLOSED ON LOAD
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("navLinks").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+});
