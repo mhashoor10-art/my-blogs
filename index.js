@@ -49,24 +49,34 @@ async function loadBlogs() {
 loadBlogs();
 
 /* ================= MENU SYSTEM ================= */
-function safeGet(id) {
-  return document.getElementById(id);
-}
+const nav = document.getElementById("navLinks");
+const overlay = document.getElementById("overlay");
 
-/* GLOBAL TOGGLE */
+/* TOGGLE BUTTON */
 window.toggleMenu = function () {
-  const nav = document.getElementById("navLinks");
-  const overlay = document.getElementById("overlay");
+  if (!nav || !overlay) return;
+
+  nav.classList.toggle("active");
+  overlay.classList.toggle("active");
+};
+
+/* ================= AUTO CLOSE FIX ================= */
+document.addEventListener("DOMContentLoaded", () => {
 
   if (!nav || !overlay) return;
 
-  if (nav.classList.contains("active")) {
+  // overlay click → close
+  overlay.addEventListener("click", () => {
     nav.classList.remove("active");
     overlay.classList.remove("active");
-  } else {
-    nav.classList.add("active");
-    overlay.classList.add("active");
-  }
-};
+  });
 
-/* ================= INIT SAFE EVENTS ================= */
+  // link click → close
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("active");
+      overlay.classList.remove("active");
+    });
+  });
+
+});
