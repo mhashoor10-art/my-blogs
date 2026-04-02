@@ -209,29 +209,7 @@ button:hover {
 .nav-links li a:hover::after {
   width: 100%;
 }
-
-/* RIPPLE EFFECT */
-.nav-links li a::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(34, 197, 94, 0.25);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s ease, height 0.3s ease;
-  pointer-events: none;
-}
-
-.nav-links li a:active::before {
-  width: 180px;
-  height: 180px;
-}
-
-.nav-links li a:active {
-  transform: scale(0.95);
+transform: scale(0.95);
 }
 
 /* MENU BUTTON */
