@@ -42,19 +42,28 @@ loadBlogs();
 /* ================= MENU TOGGLE ================= */
 window.toggleMenu = function () {
   document.getElementById("navLinks").classList.toggle("active");
-};
-
-/* ================= AUTO CLOSE MENU (SAFE) ================= */
-window.toggleMenu = function () {
-  document.getElementById("navLinks").classList.toggle("active");
   document.getElementById("overlay").classList.toggle("active");
 };
 
-// overlay click = close menu
+/* ================= AUTO CLOSE MENU ================= */
 document.addEventListener("DOMContentLoaded", () => {
+
+  // FORCE CLOSE ON LOAD (IMPORTANT FIX)
+  document.getElementById("navLinks").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+
+  // overlay click = close
   document.getElementById("overlay").onclick = () => {
     document.getElementById("navLinks").classList.remove("active");
     document.getElementById("overlay").classList.remove("active");
   };
-});
 
+  // link click = close
+  document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+      document.getElementById("navLinks").classList.remove("active");
+      document.getElementById("overlay").classList.remove("active");
+    });
+  });
+
+});
