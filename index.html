@@ -1,14 +1,40 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="UTF-8">
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🔥 SEO META -->
+<title>My Blogs | Tech, Tips & Online Earning</title>
+
+<meta name="title" content="My Blogs | Tech, Tips & Online Earning">
+<meta name="description" content="My Blogs is a platform where you can learn tech, blogging, SEO and online earning tips step by step.">
+<meta name="keywords" content="blog, tech, SEO, online earning, tutorials, blogging Pakistan">
+<meta name="author" content="Kazim Ali">
+
+<!-- 🔍 GOOGLE -->
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mhashoor10-art.github.io/kazim/">
+
+<!-- 🌐 OPEN GRAPH (FACEBOOK) -->
+<meta property="og:title" content="My Blogs">
+<meta property="og:description" content="Learn blogging, SEO and online earning step by step.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1498050108023-c5249f4df085">
+<meta property="og:url" content="https://mhashoor10-art.github.io/kazim/">
+<meta property="og:type" content="website">
+
+<!-- 🐦 TWITTER -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="My Blogs">
+<meta name="twitter:description" content="Learn blogging and online earning.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1498050108023-c5249f4df085">
+
+<!-- 📊 GOOGLE VERIFICATION -->
 <meta name="google-site-verification" content="hbqEwgtUnMeSxn1KEhRA5B1kOg2VYHIHXixzDodGeY0" />
 
-<title>Kazim Blog</title>
-
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -18,14 +44,12 @@
 
 <!-- HEADER -->
 <header class="top-header">
-
   <div class="logo">
-    <img src="logo.png" alt="logo">
-    <h1>Kazim Blog</h1>
+    <img src="logo.png" alt="My Blogs Logo">
+    <h1>My Blogs</h1>
   </div>
 
   <div class="menu-btn" onclick="toggleMenu()">☰</div>
-
 </header>
 
 <!-- OVERLAY -->
@@ -41,11 +65,11 @@
 <!-- SEARCH -->
 <div class="search-box">
   <input id="searchInput" type="text" placeholder="Search blogs...">
-  <button id="searchBtn">🔍 Search</button>
+  <button id="searchBtn">🔍</button>
 </div>
 
 <!-- BLOG SECTION -->
-<h2 style="padding:10px 20px;">Blogs</h2>
+<h2 style="padding:10px 20px;">Latest Blogs</h2>
 <div id="blogs"></div>
 
 <!-- FOOTER -->
@@ -54,8 +78,8 @@
 
     <div class="footer-links">
       <a href="index.html">Home</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
     </div>
 
     <div class="footer-social">
@@ -65,7 +89,7 @@
     </div>
 
     <p class="copyright">
-      © 2026 My Blog. All rights reserved.
+      © 2026 My Blogs. All rights reserved.
     </p>
 
   </div>
@@ -74,8 +98,8 @@
 <!-- JS -->
 <script type="module" src="index.js"></script>
 
+<!-- PROGRESS SCRIPT -->
 <script>
-/* PROGRESS BAR */
 window.onscroll = function () {
   let scrollTop = document.documentElement.scrollTop;
   let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
