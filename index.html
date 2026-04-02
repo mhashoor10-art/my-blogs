@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
 <meta name="google-site-verification" content="hbqEwgtUnMeSxn1KEhRA5B1kOg2VYHIHXixzDodGeY0" />
 
@@ -12,12 +13,14 @@
 
 <body>
 
+<!-- PROGRESS BAR -->
 <div id="progressBar"></div>
 
+<!-- HEADER -->
 <header class="top-header">
 
   <div class="logo">
-    <img src="logo.png">
+    <img src="logo.png" alt="logo">
     <h1>Kazim Blog</h1>
   </div>
 
@@ -35,12 +38,14 @@
   <li><a href="#">Contact</a></li>
 </ul>
 
+<!-- SEARCH -->
 <input id="searchInput" placeholder="Search...">
 
+<!-- BLOG SECTION -->
 <h2 style="padding:10px 20px;">Blogs</h2>
 <div id="blogs"></div>
 
-<!-- ✅ ONLY ONE FOOTER -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-container">
 
@@ -63,9 +68,11 @@
   </div>
 </footer>
 
+<!-- JS -->
 <script type="module" src="index.js"></script>
 
 <script>
+/* PROGRESS BAR */
 window.onscroll = function () {
   let scrollTop = document.documentElement.scrollTop;
   let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
