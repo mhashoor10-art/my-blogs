@@ -15,22 +15,26 @@
 <div id="progressBar"></div>
 
 <header class="top-header">
+
   <div class="logo">
     <img src="logo.png">
     <h1>Kazim Blog</h1>
   </div>
-  <div id="overlay" class="overlay"></div>
-  <div class="navbar">
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <div class="logo">Kazim Blog</div>
-</div>
 
+  <!-- MENU BUTTON -->
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+</header>
+
+<!-- SIDEBAR MENU -->
 <ul id="navLinks" class="nav-links">
   <li><a href="index.html">Home</a></li>
   <li><a href="#">About</a></li>
   <li><a href="#">Contact</a></li>
 </ul>
-</header>
+
+<!-- OVERLAY (IMPORTANT: BODY ME, HEADER ME NAHI) -->
+<div id="overlay" class="overlay"></div>
 
 <input id="searchInput" placeholder="Search...">
 
