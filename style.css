@@ -39,10 +39,10 @@ body {
 
 /* MENU BUTTON */
 .menu-btn {
-  font-size: 40px;
+  font-size: 80px;
   cursor: pointer;
   color: white;
-  margin-left: 20px;
+  margin-left: 40px;
 }
 
 /* INPUT */
