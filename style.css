@@ -157,45 +157,83 @@ button:hover {
   position: fixed;
   top: 0;
   left: 0;
-  width: 260px;
+  width: 220px;
   height: 100vh;
-  background: #111827;
+
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(12px);
+
   padding-top: 70px;
 
   transform: translateX(-100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s ease;
 
   z-index: 99999;
   visibility: hidden;
 }
 
+/* OPEN STATE */
 .nav-links.active {
   transform: translateX(0);
   visibility: visible;
 }
 
-/* LINKS RESET */
+/* LIST RESET */
 .nav-links li {
   list-style: none;
-  margin: 20px 0;
+  margin: 18px 0;
   text-align: center;
 }
 
+/* LINKS STYLE */
 .nav-links li a {
   color: white;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 17px;
+
+  padding: 10px 16px;
+  display: inline-block;
+  border-radius: 10px;
+
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+/* HOVER EFFECT */
+.nav-links li a:hover {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  transform: scale(1.08);
+}
+
+/* CLICK ACTIVE FEEL */
+.nav-links li a:active {
+  transform: scale(0.95);
 }
 
 /* OVERLAY */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.45);
+
   display: none;
   z-index: 99998;
 }
 
 .overlay.active {
   display: block;
+}
+
+/* MENU BUTTON NICE TOUCH */
+.menu-btn {
+  font-size: 32px;
+  cursor: pointer;
+  color: white;
+  margin-left: auto;
+  transition: 0.2s;
+}
+
+.menu-btn:hover {
+  transform: scale(1.1);
 }
