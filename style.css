@@ -262,7 +262,7 @@ button:hover {
   border: none;
 
   background: #white;
-  color: black;
+  color: white;
   cursor: pointer;
 
   transition: 0.4s;
