@@ -45,13 +45,15 @@ window.toggleMenu = function () {
 };
 
 /* ================= AUTO CLOSE MENU (SAFE) ================= */
-window.addEventListener("DOMContentLoaded", () => {
-  const links = document.querySelectorAll(".nav-links a");
+window.toggleMenu = function () {
+  document.getElementById("navLinks").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+};
 
-  links.forEach(link => {
-    link.addEventListener("click", () => {
-      const nav = document.getElementById("navLinks");
-      if (nav) nav.classList.remove("active");
-    });
-  });
+// overlay click = close menu
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("overlay").onclick = () => {
+    document.getElementById("navLinks").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+  };
 });
