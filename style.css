@@ -148,29 +148,36 @@ button:hover {
 }
 
 /* ================= SIDEBAR MENU ================= */
+/* MENU BUTTON */
+.menu-btn {
+  font-size: 30px;
+  cursor: pointer;
+  color: white;
+}
 
+/* SIDEBAR MENU (FINAL FIX) */
 .nav-links {
   position: fixed;
   top: 0;
-  left: -260px;
+  left: -260px; /* hidden by default */
   width: 260px;
   height: 100%;
   background: #111827;
-  display: flex;
-  flex-direction: column;
-  padding-top: 70px;
+  padding-top: 60px;
   transition: 0.3s ease;
   z-index: 1000;
 }
 
+/* SHOW MENU */
 .nav-links.active {
   left: 0;
 }
 
+/* LINKS */
 .nav-links li {
   list-style: none;
-  margin: 15px 0;
-  padding-left: 20px;
+  margin: 20px 0;
+  text-align: center;
 }
 
 .nav-links li a {
@@ -178,15 +185,14 @@ button:hover {
   text-decoration: none;
   font-size: 18px;
   position: relative;
-  display: inline-block;
 }
 
-/* GREEN UNDERLINE */
+/* UNDERLINE EFFECT */
 .nav-links li a::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -3px;
+  bottom: -4px;
   width: 0%;
   height: 2px;
   background: #22c55e;
@@ -211,13 +217,4 @@ button:hover {
 
 .overlay.active {
   display: block;
-}
-
-/* REMOVE BLUE TAP */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-button, .menu-btn, a {
-  outline: none;
 }
