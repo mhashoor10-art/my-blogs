@@ -19,7 +19,13 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBlQP-s0Q-y6J1POkEEHrcDP32Wn6JPK_4",
@@ -30,64 +36,86 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const id = new URLSearchParams(location.search).get("id");
 const post = document.getElementById("post");
+const id = new URLSearchParams(location.search).get("id");
+
+/* START LOADER */
+post.innerHTML = `<div class="loader"><p>Loading blog...</p></div>`;
 
 let allBlogs = [];
 
+/* LOAD BLOG */
 async function loadPost() {
+  try {
 
-  const snap = await getDoc(doc(db, "blogs", id));
+    if (!id) {
+      post.innerHTML = "<h2>No blog ID found</h2>";
+      return;
+    }
 
-  if (!snap.exists()) {
-    post.innerHTML = "Not found";
-    return;
+    const snap = await getDoc(doc(db, "blogs", id));
+
+    if (!snap.exists()) {
+      post.innerHTML = "<h2>Blog not found</h2>";
+      return;
+    }
+
+    const b = snap.data();
+
+    /* IMPORTANT: FULL CLEAN RENDER */
+    post.innerHTML = `
+      <div class="card">
+        <img class="post-img" src="${b.img || ''}">
+
+        <h1>${b.title || 'No Title'}</h1>
+
+        <p><b>${b.author || 'Admin'}</b> | ${b.date || ''}</p>
+
+        <hr>
+
+        <div style="white-space: pre-line;">
+          ${b.content || 'No content available'}
+        </div>
+      </div>
+    `;
+
+    await loadRelated();
+
+  } catch (err) {
+    console.log(err);
+    post.innerHTML = "<h2>Error loading blog</h2>";
   }
-
-  const b = snap.data();
-
-  post.innerHTML = `
-    <div class="card">
-      <img class="post-img" src="${b.img}">
-      <h1>${b.title}</h1>
-      <p><b>${b.author}</b> | ${b.date}</p>
-      <hr>
-      <p>${b.content}</p>
-    </div>
-  `;
-
-  loadRelated(b.title);
 }
 
-/* RELATED BLOGS */
-async function loadRelated(currentTitle) {
+/* RELATED BLOGS (SAFE VERSION) */
+async function loadRelated() {
   const snap = await getDocs(collection(db, "blogs"));
 
   allBlogs = [];
 
-  snap.forEach(doc => {
-    if (doc.id !== id) {
-      allBlogs.push({ id: doc.id, ...doc.data() });
+  snap.forEach(d => {
+    if (d.id !== id) {
+      allBlogs.push({ id: d.id, ...d.data() });
     }
   });
 
-  let related = allBlogs.slice(0, 3);
+  allBlogs = allBlogs.slice(0, 3);
 
-  post.innerHTML += `
-    <h2 style="margin-top:30px;">Related Blogs</h2>
-  `;
+  let html = `<h2 style="margin-top:30px;">Related Blogs</h2>`;
 
-  related.forEach(b => {
-    post.innerHTML += `
+  allBlogs.forEach(b => {
+    html += `
       <div class="card">
         <a href="post.html?id=${b.id}">
-          <img src="${b.img}">
-          <h4>${b.title}</h4>
-          <p>${b.desc}</p>
+          <img src="${b.img || ''}">
+          <h3>${b.title || ''}</h3>
+          <p>${b.desc || ''}</p>
         </a>
       </div>
     `;
   });
+
+  post.innerHTML += html;
 }
 
 loadPost();
