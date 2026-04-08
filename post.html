@@ -19,7 +19,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBlQP-s0Q-y6J1POkEEHrcDP32Wn6JPK_4",
@@ -30,49 +30,64 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const id = new URLSearchParams(window.location.search).get("id");
+const id = new URLSearchParams(location.search).get("id");
 const post = document.getElementById("post");
 
+let allBlogs = [];
+
 async function loadPost() {
-  post.style.opacity = 0;
-  if (!id) return post.innerHTML = "No post found";
 
   const snap = await getDoc(doc(db, "blogs", id));
 
-  if (!snap.exists()) return post.innerHTML = "Not found";
+  if (!snap.exists()) {
+    post.innerHTML = "Not found";
+    return;
+  }
 
   const b = snap.data();
 
   post.innerHTML = `
-  <div class="card">
-    <img class="post-img" src="${b.img || "https://via.placeholder.com/600"}">
-    <h1>${b.title}</h1>
-    <p><b>By:</b> ${b.author || "Admin"}</p>
-    <small>${b.date || ""}</small>
-    <hr>
-    <p>${b.content || ""}</p>
-  </div>
-`;
-  setTimeout(() => {
-  post.style.opacity = 1;
-  post.style.transition = "0.5s";
-}, 100);
+    <div class="card">
+      <img class="post-img" src="${b.img}">
+      <h1>${b.title}</h1>
+      <p><b>${b.author}</b> | ${b.date}</p>
+      <hr>
+      <p>${b.content}</p>
+    </div>
+  `;
+
+  loadRelated(b.title);
+}
+
+/* RELATED BLOGS */
+async function loadRelated(currentTitle) {
+  const snap = await getDocs(collection(db, "blogs"));
+
+  allBlogs = [];
+
+  snap.forEach(doc => {
+    if (doc.id !== id) {
+      allBlogs.push({ id: doc.id, ...doc.data() });
+    }
+  });
+
+  let related = allBlogs.slice(0, 3);
+
+  post.innerHTML += `
+    <h2 style="margin-top:30px;">Related Blogs</h2>
+  `;
+
+  related.forEach(b => {
+    post.innerHTML += `
+      <div class="card">
+        <a href="post.html?id=${b.id}">
+          <img src="${b.img}">
+          <h4>${b.title}</h4>
+          <p>${b.desc}</p>
+        </a>
+      </div>
+    `;
+  });
 }
 
 loadPost();
-</script>
-<script>
-window.addEventListener("scroll", () => {
-  const img = document.querySelector(".post-img");
-  if (!img) return;
-
-  let scroll = window.scrollY;
-
-  let scale = 1 - scroll / 1000;
-  if (scale < 0.6) scale = 0.6;
-
-  img.style.transform = `scale(${scale})`;
-});
-</script>
-</body>
-</html>
