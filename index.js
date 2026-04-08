@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* ================= FIREBASE ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyBlQP-s0Q-y6J1POkEEHrcDP32Wn6JPK_4",
   authDomain: "kazim-aa621.firebaseapp.com",
@@ -12,114 +11,53 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const blogsDiv = document.getElementById("blogs");
+let allBlogs = [];
 
-/* STORE ALL BLOGS */
-let allBlogsData = [];
-
-/* ================= LOAD BLOGS ================= */
+/* LOAD BLOGS */
 async function loadBlogs() {
-  if (!blogsDiv) return;
-
   blogsDiv.innerHTML = "Loading...";
 
-  try {
-    const data = await getDocs(collection(db, "blogs"));
+  const snap = await getDocs(collection(db, "blogs"));
 
-    allBlogsData = [];
+  allBlogs = [];
 
-    data.forEach((doc) => {
-      const b = doc.data();
-      b.id = doc.id;
-      allBlogsData.push(b);
-    });
+  snap.forEach(doc => {
+    allBlogs.push({ id: doc.id, ...doc.data() });
+  });
 
-    renderBlogs(allBlogsData);
+  // 🔥 Latest first
+  allBlogs.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  } catch (err) {
-    console.error(err);
-    blogsDiv.innerHTML = "<p>Error loading blogs</p>";
-  }
+  renderBlogs(allBlogs);
 }
 
-/* ================= RENDER ================= */
+/* HOME RENDER */
 function renderBlogs(data) {
-  let html = "";
+  blogsDiv.innerHTML = "";
 
-  data.forEach((b) => {
-    html += `
+  data.forEach(b => {
+    blogsDiv.innerHTML += `
       <div class="card">
         <a href="post.html?id=${b.id}">
-          <img src="${b.img || "https://via.placeholder.com/400"}">
-          <h3>${b.title || "No Title"}</h3>
-          <p>${b.desc || ""}</p>
+          <img src="${b.img}">
+          <h3>${b.title}</h3>
+          <p>${b.desc}</p>
         </a>
       </div>
     `;
   });
-
-  blogsDiv.innerHTML = html || "<p>No results found</p>";
 }
 
-/* CALL LOAD */
 loadBlogs();
 
-/* ================= SEARCH ================= */
-document.addEventListener("DOMContentLoaded", () => {
+/* SEARCH */
+document.getElementById("searchBtn").onclick = () => {
+  let val = document.getElementById("searchInput").value.toLowerCase();
 
-  const searchInput = document.getElementById("searchInput");
-  const searchBtn = document.getElementById("searchBtn");
+  let filtered = allBlogs.filter(b =>
+    b.title.toLowerCase().includes(val) ||
+    b.desc.toLowerCase().includes(val)
+  );
 
-  if (!searchBtn || !searchInput) return;
-
-  // BUTTON CLICK
-  searchBtn.onclick = () => {
-    const value = searchInput.value.trim().toLowerCase();
-
-    if (!value) {
-      renderBlogs(allBlogsData); // show all if empty
-      return;
-    }
-
-    const filtered = allBlogsData.filter(b =>
-      b.title?.toLowerCase().includes(value) ||
-      b.desc?.toLowerCase().includes(value)
-    );
-
-    renderBlogs(filtered);
-  };
-
-  // ENTER KEY
-  searchInput.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") {
-      searchBtn.click();
-    }
-  });
-
-});
-
-/* ================= MENU ================= */
-const nav = document.getElementById("navLinks");
-const overlay = document.getElementById("overlay");
-
-window.toggleMenu = function () {
-  if (!nav || !overlay) return;
-
-  nav.classList.toggle("active");
-  overlay.classList.toggle("active");
+  renderBlogs(filtered);
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-  if (!nav || !overlay) return;
-
-  overlay.onclick = () => {
-    nav.classList.remove("active");
-    overlay.classList.remove("active");
-  };
-
-  document.querySelectorAll(".nav-links a").forEach(a => {
-    a.onclick = () => {
-      nav.classList.remove("active");
-      overlay.classList.remove("active");
-    };
-  });
-});
