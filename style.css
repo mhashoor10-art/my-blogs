@@ -314,3 +314,15 @@ button:hover {
 .card a:hover h2 {
   color: #22c55e;
 }
+
+.read-more {
+  display: inline-block;
+  margin-top: 10px;
+  color: #22c55e;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
