@@ -66,7 +66,7 @@ function renderBlogs(data) {
 
         <h2>${latest.title || "No Title"}</h2>
 
-        <p>${latest.desc || ""}</p>
+        <p>${latest.content || latest.desc || ""}</p>
 
         <small>${latest.date || ""}</small>
       </a>
