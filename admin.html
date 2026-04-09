@@ -101,13 +101,23 @@ async function loadBlogs() {
     const b = d.data();
 
     const div = document.createElement("div");
-
+     
     div.innerHTML = `
-      <h4>${b.title}</h4>
-      <button class="edit">Edit</button>
-      <button class="del">Delete</button>
-      <hr>
-    `;
+  <div style="display:flex; align-items:center; gap:10px;">
+
+    <img src="${b.img || 'https://via.placeholder.com/80'}" 
+         style="width:60px; height:60px; object-fit:cover; border-radius:6px;">
+
+    <div style="flex:1;">
+      <h4 style="margin:0;">${b.title}</h4>
+    </div>
+
+    <button class="edit">Edit</button>
+    <button class="del">Delete</button>
+
+  </div>
+  <hr>
+`;
 
     div.querySelector(".edit").onclick = () => {
       editId = d.id;
