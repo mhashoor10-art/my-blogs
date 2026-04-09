@@ -52,7 +52,7 @@ function renderBlogs(data) {
   const latest = data[0];
 
   let html = `
-    <h2 style="padding:10px;">🔥 Latest Blog</h2>
+    
 
     <div class="card">
       <img src="${latest.img || "https://via.placeholder.com/600"}">
